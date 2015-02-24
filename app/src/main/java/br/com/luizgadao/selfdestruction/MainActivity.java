@@ -43,8 +43,9 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
 
-        // Enable Local Datastore.
-        Parse.enableLocalDatastore( this );
+
+
+
 
         Intent intent = new Intent( this, LoginActivity.class );
         intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );

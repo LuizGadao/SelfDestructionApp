@@ -1,6 +1,7 @@
 package br.com.luizgadao.selfdestruction;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -9,6 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.parse.ParseException;
+import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 
 public class SignUpActivity extends ActionBarActivity {
@@ -89,6 +94,38 @@ public class SignUpActivity extends ActionBarActivity {
                                 .setPositiveButton( android.R.string.ok, null );
 
                         builder.create().show();
+                    }else{
+                        //create new user
+                        ParseUser newUser = new ParseUser();
+                        newUser.setUsername( login );
+                        newUser.setPassword( password );
+                        newUser.setEmail( email );
+
+                        newUser.signUpInBackground( new SignUpCallback() {
+                            @Override
+                            public void done( ParseException e ) {
+
+                                //success
+                                if ( e == null )
+                                {
+                                    Intent intent = new Intent( getActivity(), MainActivity.class );
+                                    intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+                                    intent.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP );
+
+                                    startActivity( intent );
+                                }
+                                else
+                                {
+                                    AlertDialog.Builder builder = new AlertDialog.Builder( getActivity() );
+                                    builder.setTitle( R.string.signup_error_title )
+                                            .setMessage( e.getMessage() )
+                                            .setPositiveButton( android.R.string.ok, null );
+
+                                    builder.create().show();
+                                }
+                            }
+                        } );
+
                     }
                 }
             } );
