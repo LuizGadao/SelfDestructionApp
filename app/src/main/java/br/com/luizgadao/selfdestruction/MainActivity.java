@@ -8,19 +8,24 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.parse.Parse;
+import com.parse.ParseAnalytics;
+import com.parse.ParseUser;
 
 import java.util.Locale;
 
+import br.com.luizgadao.selfdestruction.utils.LogUtils;
 import br.com.luizgadao.selfdestruction.views.android.SlidingTabLayout;
 
 
 public class MainActivity extends ActionBarActivity {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -43,14 +48,16 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
 
+        ParseAnalytics.trackAppOpenedInBackground( getIntent() );
 
-
-
-
-        Intent intent = new Intent( this, LoginActivity.class );
-        intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
-        intent.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK );
-        startActivity( intent );
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if ( currentUser == null ) {
+            navigateToLogin();
+        }
+        else
+        {
+            LogUtils.logInfo( TAG, "current user: " + currentUser.getUsername() );
+        }
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -64,7 +71,14 @@ public class MainActivity extends ActionBarActivity {
         slidingTabLayout.setViewPager( mViewPager );
     }
 
-    /*
+    private void navigateToLogin() {
+        Intent intent = new Intent( this, LoginActivity.class );
+        intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+        intent.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK );
+        startActivity( intent );
+    }
+
+
     @Override
     public boolean onCreateOptionsMenu( Menu menu ) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -79,14 +93,15 @@ public class MainActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if ( id == R.id.action_settings ) {
-            return true;
+        //action logout
+        if ( id == R.id.action_logout ) {
+            ParseUser.logOut();
+            navigateToLogin();
         }
 
         return super.onOptionsItemSelected( item );
     }
-    */
+
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to

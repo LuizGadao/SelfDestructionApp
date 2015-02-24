@@ -16,5 +16,10 @@
     <string name="signup_button">Sign UP</string>
     <string name="signup_error_title">Ooops...</string>
     <string name="signup_error_message">Please make sure you enter a login, password and email.</string>
+    <string name="login_error_title">Ooops...</string>
+    <string name="login_error_message">Please make sure you enter a login and password.</string>
+    <string name="action_logout">Logout</string>
+    <string name="login_dialog_message">Wait for login...</string>
+    <string name="signup_dialog_message">Waint for signup.</string>
 
 </resources>

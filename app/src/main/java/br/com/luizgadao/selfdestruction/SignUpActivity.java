@@ -1,6 +1,7 @@
 package br.com.luizgadao.selfdestruction;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,8 @@ import android.widget.EditText;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
+
+import br.com.luizgadao.selfdestruction.utils.Utils;
 
 
 public class SignUpActivity extends ActionBarActivity {
@@ -95,6 +98,11 @@ public class SignUpActivity extends ActionBarActivity {
 
                         builder.create().show();
                     }else{
+
+                        final ProgressDialog progressDialog = Utils.createGenericProgressDialog( getActivity(),
+                                getString( R.string.signup ), getString( R.string.signup_dialog_message ) );
+                        progressDialog.show();
+
                         //create new user
                         ParseUser newUser = new ParseUser();
                         newUser.setUsername( login );
@@ -105,12 +113,14 @@ public class SignUpActivity extends ActionBarActivity {
                             @Override
                             public void done( ParseException e ) {
 
+                                progressDialog.dismiss();
+
                                 //success
                                 if ( e == null )
                                 {
                                     Intent intent = new Intent( getActivity(), MainActivity.class );
                                     intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
-                                    intent.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP );
+                                    intent.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK );
 
                                     startActivity( intent );
                                 }
