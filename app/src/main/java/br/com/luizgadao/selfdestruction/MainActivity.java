@@ -21,6 +21,8 @@ import java.util.Locale;
 
 import br.com.luizgadao.selfdestruction.utils.LogUtils;
 import br.com.luizgadao.selfdestruction.views.android.SlidingTabLayout;
+import br.com.luizgadao.selfdestruction.views.fragments.Friends;
+import br.com.luizgadao.selfdestruction.views.fragments.Inbox;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -115,9 +117,15 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public Fragment getItem( int position ) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance( position + 1 );
+
+            switch ( position )
+            {
+                case 0: return new Inbox();
+                case 1: return new Friends();
+            }
+
+            return null;
+
         }
 
         @Override
@@ -131,9 +139,9 @@ public class MainActivity extends ActionBarActivity {
             Locale l = Locale.getDefault();
             switch ( position ) {
                 case 0:
-                    return getString( R.string.title_section1 ).toUpperCase( l );
+                    return "Inbox";
                 case 1:
-                    return getString( R.string.title_section2 ).toUpperCase( l );
+                    return "Friends";
             }
             return null;
         }
