@@ -16,6 +16,7 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+import br.com.luizgadao.selfdestruction.utils.ParseConstants;
 import br.com.luizgadao.selfdestruction.utils.Utils;
 
 
@@ -60,7 +61,7 @@ public class SignUpActivity extends ActionBarActivity {
      */
     public static class SignUpFragment extends Fragment {
 
-        protected EditText etLogin, etPassword, etEmail;
+        protected EditText etLogin, etPassword, etEmail, etFirstName, etLastName, etHometown, etWebsite;
         protected Button btSignUp;
 
         public SignUpFragment() {
@@ -72,6 +73,10 @@ public class SignUpActivity extends ActionBarActivity {
             View rootView = inflater.inflate( R.layout.fragment_sign_up, container, false );
 
             etLogin = ( EditText ) rootView.findViewById( R.id.et_login );
+            etFirstName = ( EditText ) rootView.findViewById( R.id.et_first_name );
+            etLastName = ( EditText ) rootView.findViewById( R.id.et_last_name );
+            etHometown = ( EditText ) rootView.findViewById( R.id.et_hometown );
+            etWebsite = ( EditText ) rootView.findViewById( R.id.et_web );
             etPassword = ( EditText ) rootView.findViewById( R.id.et_password );
             etEmail = ( EditText ) rootView.findViewById( R.id.et_email );
             btSignUp = ( Button ) rootView.findViewById( R.id.bt_signup );
@@ -81,6 +86,10 @@ public class SignUpActivity extends ActionBarActivity {
                 @Override
                 public void onClick( View v ) {
                     String login = etLogin.getText().toString();
+                    String firstName = etFirstName.getText().toString();
+                    String lastName = etLastName.getText().toString();
+                    String hometown = etHometown.getText().toString();
+                    String site = etWebsite.getText().toString();
                     String password = etPassword.getText().toString();
                     String email = etEmail.getText().toString();
 
@@ -108,6 +117,10 @@ public class SignUpActivity extends ActionBarActivity {
                         newUser.setUsername( login );
                         newUser.setPassword( password );
                         newUser.setEmail( email );
+                        newUser.put( ParseConstants.KEY_FIRST_NAME, firstName );
+                        newUser.put( ParseConstants.KEY_LAST_NAME, lastName );
+                        newUser.put( ParseConstants.KEY_HOMETOWN, hometown );
+                        newUser.put( ParseConstants.KEY_WEB_SITE, site );
 
                         newUser.signUpInBackground( new SignUpCallback() {
                             @Override

@@ -28,5 +28,9 @@
     <string name="error_title">We\'re sorry!</string>
     <string name="title_loading_user">Get users</string>
     <string name="loading">Loading...</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="hometown">Hometown</string>
+    <string name="web_site">Your web site here</string>
 
 </resources>

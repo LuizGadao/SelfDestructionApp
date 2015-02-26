@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SelfDestruction.iml" filepath="$PROJECT_DIR$/SelfDestruction.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SelfDestructionApp.iml" filepath="$PROJECT_DIR$/SelfDestructionApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
