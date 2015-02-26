@@ -252,6 +252,9 @@ public class MainActivity extends ActionBarActivity {
                 sendBroadcast( mediaScanIntent );
             }
 
+            Intent intentRecipients = new Intent( this, ChooseRecipientsActivity.class );
+            intentRecipients.setData( mediaUri );
+            startActivity( intentRecipients );
         }
         else if ( resultCode == RESULT_CANCELED ) {
             Toast.makeText( this, R.string.general_error, Toast.LENGTH_LONG ).show();

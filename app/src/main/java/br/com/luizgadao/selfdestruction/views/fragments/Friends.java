@@ -36,14 +36,12 @@ public class Friends extends ListFragment {
     @Override
     public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState ) {
         View rootView = inflater.inflate( R.layout.fragment_friends, container, false );
+        loadFrieds();
 
         return rootView;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
+    private void loadFrieds() {
         final ProgressDialog progressDialog = Utils.createGenericProgressDialog( getActivity(),
                 getString( R.string.title_loading_user ), getString( R.string.loading ) );
         progressDialog.show();
