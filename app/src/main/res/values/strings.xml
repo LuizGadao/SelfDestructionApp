@@ -32,5 +32,18 @@
     <string name="last_name">Last name</string>
     <string name="hometown">Hometown</string>
     <string name="web_site">Your web site here</string>
+    <string name="action_camera_label">Camera</string>
+    <string name="none_external_storage">There was a problem accessing your device\'s external storage.</string>
+    <string name="general_error">Sorry there was an error</string>
+    <string name="select_video">The selected video must be less than 10 MB</string>
+    <string name="select_file_error">There was a problem with the select the file</string>
+    <string name="error_file_size_too_large">The selected file is too large! Select a new file</string>
+
+    <string-array name="camera_choose">
+        <item>Take Photo</item>
+        <item>Take Video</item>
+        <item>Choose Photo</item>
+        <item>Choose Video</item>
+    </string-array>
 
 </resources>

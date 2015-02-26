@@ -2,6 +2,7 @@ package br.com.luizgadao.selfdestruction.utils;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.Environment;
 
 /**
  * Created by luizcarlos on 24/02/15.
@@ -16,6 +17,12 @@ public class Utils {
         progressDialog.setCancelable( false );
 
         return progressDialog;
+    }
+
+    public static boolean isExternalStorageAvailable()
+    {
+        String state = Environment.getExternalStorageState();
+        return state.equals( Environment.MEDIA_MOUNTED );
     }
 
 }
