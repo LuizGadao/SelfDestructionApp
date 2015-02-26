@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -90,5 +91,11 @@ public class Friends extends ListFragment {
                 }
             }
         } );
+    }
+
+    @Override
+    public void onListItemClick( ListView l, View v, int position, long id ) {
+        //TODO open details user
+        super.onListItemClick( l, v, position, id );
     }
 }
