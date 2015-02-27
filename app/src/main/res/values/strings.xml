@@ -45,7 +45,8 @@
         <item>Choose Photo</item>
         <item>Choose Video</item>
     </string-array>
-    <string name="title_activity_choose_recipients">ChooseRecipientsActivity</string>
+    <string name="title_activity_choose_recipients">Choose some friends</string>
     <string name="empty_fragment_recipients">Choose some friends first</string>
+    <string name="action_send">Send</string>
 
 </resources>
