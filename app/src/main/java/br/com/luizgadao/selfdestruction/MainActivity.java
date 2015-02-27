@@ -32,6 +32,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import br.com.luizgadao.selfdestruction.utils.LogUtils;
+import br.com.luizgadao.selfdestruction.utils.ParseConstants;
 import br.com.luizgadao.selfdestruction.utils.Utils;
 import br.com.luizgadao.selfdestruction.views.android.SlidingTabLayout;
 import br.com.luizgadao.selfdestruction.views.fragments.Friends;
@@ -212,6 +213,14 @@ public class MainActivity extends ActionBarActivity {
             //open intent with friends to send data
             Intent intentRecipients = new Intent( this, ChooseRecipientsActivity.class );
             intentRecipients.setData( mediaUri );
+
+            String fileType = "";
+            if ( requestCode == PICK_PHOTO || requestCode == TAKE_PHOTO )
+                fileType = ParseConstants.KEY_FILE_IMAGE;
+            else if ( requestCode == PICK_VIDEO || requestCode == TAKE_VIDEO )
+                fileType = ParseConstants.KEY_FILE_VIDEO;
+
+            intentRecipients.putExtra( ParseConstants.KEY_FILE_TYPE, fileType );
             startActivity( intentRecipients );
         }
         else if ( resultCode == RESULT_CANCELED ) {

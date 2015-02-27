@@ -9,10 +9,10 @@ import com.parse.Parse;
  */
 public class SelfDestructionApplication extends Application {
 
-    private Application app;
+    private static Application app;
 
 
-    public Application GetInstance(){
+    public static Application getInstance(){
         if ( app == null )
             new SelfDestructionApplication();
 
