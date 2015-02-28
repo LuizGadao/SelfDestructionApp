@@ -1,7 +1,6 @@
 package br.com.luizgadao.selfdestruction.views.fragments;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -20,7 +19,6 @@ import java.util.List;
 
 import br.com.luizgadao.selfdestruction.R;
 import br.com.luizgadao.selfdestruction.utils.ParseConstants;
-import br.com.luizgadao.selfdestruction.utils.Utils;
 
 /**
  * Created by luizcarlos on 25/02/15.
@@ -36,15 +34,22 @@ public class Friends extends ListFragment {
     @Override
     public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState ) {
         View rootView = inflater.inflate( R.layout.fragment_friends, container, false );
-        loadFrieds();
 
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if ( ParseUser.getCurrentUser() != null )
+            loadFrieds();
+    }
+
     private void loadFrieds() {
-        final ProgressDialog progressDialog = Utils.createGenericProgressDialog( getActivity(),
+        /*final ProgressDialog progressDialog = Utils.createGenericProgressDialog( getActivity(),
                 getString( R.string.title_loading_user ), getString( R.string.loading ) );
-        progressDialog.show();
+        progressDialog.show();*/
 
         mCurrentUser = ParseUser.getCurrentUser();
         mFriendsRelation = mCurrentUser.getRelation( ParseConstants.KEY_FRIENDS_RELATION );
@@ -57,6 +62,7 @@ public class Friends extends ListFragment {
             @Override
             public void done( List<ParseUser> parseUsers, ParseException e ) {
 
+                //progressDialog.dismiss();
                 if ( e == null ) {
                     //success
                     mFriends = parseUsers;
@@ -77,7 +83,6 @@ public class Friends extends ListFragment {
                             android.R.layout.simple_list_item_1, namesUser );
 
                     setListAdapter( adapter );
-                    progressDialog.dismiss();
                 } else {
                     // some error
                     AlertDialog.Builder builder = new AlertDialog.Builder( getActivity() );

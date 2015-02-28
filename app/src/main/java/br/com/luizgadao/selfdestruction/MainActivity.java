@@ -32,6 +32,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import br.com.luizgadao.selfdestruction.utils.LogUtils;
+import br.com.luizgadao.selfdestruction.utils.ParseConstants;
 import br.com.luizgadao.selfdestruction.utils.Utils;
 import br.com.luizgadao.selfdestruction.views.android.SlidingTabLayout;
 import br.com.luizgadao.selfdestruction.views.fragments.Friends;
@@ -99,9 +100,11 @@ public class MainActivity extends ActionBarActivity {
                                 R.string.none_external_storage, Toast.LENGTH_LONG ).show();
                     }
                     else {
+                        int seconds = 10;
+                        int quality = 0; //0 to low and 1 to hight;
                         takeVideoIntent.putExtra( MediaStore.EXTRA_OUTPUT, mediaUri );
-                        takeVideoIntent.putExtra( MediaStore.EXTRA_DURATION_LIMIT, 10 );
-                        takeVideoIntent.putExtra( MediaStore.EXTRA_VIDEO_QUALITY, 0 ); // 0 to low and 1 to hight quality
+                        takeVideoIntent.putExtra( MediaStore.EXTRA_DURATION_LIMIT, seconds );
+                        takeVideoIntent.putExtra( MediaStore.EXTRA_VIDEO_QUALITY, quality );
                         startActivityForResult( takeVideoIntent, TAKE_VIDEO );
                     }
                     break;
@@ -123,52 +126,6 @@ public class MainActivity extends ActionBarActivity {
             }
         }
     };
-
-    private Uri getOutputMediaFileUri( int mediaType ) {
-        // To be safe, you should check that the SDCard is mounted
-        // using Environment.getExternalStorageState() before doing this.
-
-        if ( Utils.isExternalStorageAvailable() )
-        {
-            // 1 - Get external storage director
-            String appName = getString( R.string.app_name );
-            File mediaStorageDir = new File( Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_PICTURES ), appName);
-
-            // 2 - create our subdirectory
-            if ( ! mediaStorageDir.exists() ) {
-                if ( ! mediaStorageDir.mkdirs() ) {
-                    LogUtils.logError( TAG, "erro to create directory" );
-                    return null;
-                }
-            }
-
-            // 3 - create a file name
-            // 4 - create file
-            File mediaFile;
-            Date now = new Date();
-            String timestamp = new SimpleDateFormat( "yyyyMMdd_HHmmss", Locale.US ).format( now );
-            String path = mediaStorageDir.getPath() + File.separator;
-
-            if ( mediaType == MEDIA_TYPE_IMAGE )
-            {
-                mediaFile = new File( path + "IMG_" + timestamp + ".jpg" );
-            }
-            else if ( mediaType == MEDIA_TYPE_VIDEO )
-            {
-                mediaFile = new File( path + "VID_" + timestamp + ".mp4" );
-            }
-            else
-                return null;
-
-            LogUtils.logError( TAG, Uri.fromFile( mediaFile ).toString() );
-
-            // 5 - return the file Uri
-            return Uri.fromFile( mediaFile );
-        }
-
-        return null;
-    }
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -206,12 +163,12 @@ public class MainActivity extends ActionBarActivity {
         {
             if ( requestCode == PICK_PHOTO || requestCode == PICK_VIDEO )
             {
-                if ( data == null )
+                if ( data == null ) {
                     Toast.makeText( this, R.string.general_error, Toast.LENGTH_LONG ).show();
-                else
-                {
-                    mediaUri = data.getData();
+                    return;
                 }
+
+                mediaUri = data.getData();
 
                 LogUtils.logInfo( TAG, "Media URI: " + mediaUri );
                 if ( requestCode == PICK_VIDEO )
@@ -247,18 +204,74 @@ public class MainActivity extends ActionBarActivity {
             }
             else
             {
+                //share media
                 Intent mediaScanIntent = new Intent( Intent.ACTION_MEDIA_SCANNER_SCAN_FILE );
                 mediaScanIntent.setData( mediaUri );
                 sendBroadcast( mediaScanIntent );
             }
 
+            //open intent with friends to send data
             Intent intentRecipients = new Intent( this, ChooseRecipientsActivity.class );
             intentRecipients.setData( mediaUri );
+
+            String fileType = "";
+            if ( requestCode == PICK_PHOTO || requestCode == TAKE_PHOTO )
+                fileType = ParseConstants.KEY_FILE_IMAGE;
+            else if ( requestCode == PICK_VIDEO || requestCode == TAKE_VIDEO )
+                fileType = ParseConstants.KEY_FILE_VIDEO;
+
+            intentRecipients.putExtra( ParseConstants.KEY_FILE_TYPE, fileType );
             startActivity( intentRecipients );
         }
         else if ( resultCode == RESULT_CANCELED ) {
-            Toast.makeText( this, R.string.general_error, Toast.LENGTH_LONG ).show();
+            //Toast.makeText( this, R.string.general_error, Toast.LENGTH_LONG ).show();
         }
+    }
+
+    private Uri getOutputMediaFileUri( int mediaType ) {
+        // To be safe, you should check that the SDCard is mounted
+        // using Environment.getExternalStorageState() before doing this.
+
+        if ( Utils.isExternalStorageAvailable() )
+        {
+            // 1 - Get external storage director
+            String appName = getString( R.string.app_name );
+            File mediaStorageDir = new File( Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_PICTURES ), appName);
+
+            // 2 - create our subdirectory
+            if ( ! mediaStorageDir.exists() ) {
+                if ( ! mediaStorageDir.mkdirs() ) {
+                    LogUtils.logError( TAG, "error to create directory" );
+                    return null;
+                }
+            }
+
+            // 3 - create a file name
+            // 4 - create file
+            File mediaFile;
+            Date now = new Date();
+            String timestamp = new SimpleDateFormat( "yyyyMMdd_HHmmss", Locale.US ).format( now );
+            String path = mediaStorageDir.getPath() + File.separator;
+
+            if ( mediaType == MEDIA_TYPE_IMAGE )
+            {
+                mediaFile = new File( path + "IMG_" + timestamp + ".jpg" );
+            }
+            else if ( mediaType == MEDIA_TYPE_VIDEO )
+            {
+                mediaFile = new File( path + "VID_" + timestamp + ".mp4" );
+            }
+            else
+                return null;
+
+            LogUtils.logError( TAG, Uri.fromFile( mediaFile ).toString() );
+
+            // 5 - return the file Uri
+            return Uri.fromFile( mediaFile );
+        }
+
+        return null;
     }
 
     private void navigateToLogin() {
