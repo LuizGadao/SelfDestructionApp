@@ -153,6 +153,8 @@ public class MainActivity extends ActionBarActivity {
 
         slidingTabLayout = ( SlidingTabLayout ) findViewById( R.id.sliding_tabs );
         slidingTabLayout.setViewPager( mViewPager );
+        slidingTabLayout.setDividerColors( R.color.primary_color );
+        slidingTabLayout.setSelectedIndicatorColors( getResources().getColor( R.color.primary_color ) );
     }
 
     @Override

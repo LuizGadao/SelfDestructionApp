@@ -16,6 +16,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.Collections;
 import java.util.List;
 
 import br.com.luizgadao.selfdestruction.R;
@@ -59,6 +60,7 @@ public class Inbox extends ListFragment {
                         i++;
                     }
 
+                    Collections.reverse( mMessages );
                     MessageAdapter adapter = new MessageAdapter( getActivity(), mMessages );
                     setListAdapter(adapter);
                 }
@@ -77,11 +79,17 @@ public class Inbox extends ListFragment {
 
         if ( messageType.equals( ParseConstants.KEY_FILE_IMAGE ) )
         {
+            //image
             Intent intent = new Intent( getActivity(), ViewImageActivity.class );
             intent.setData( uri );
             startActivity( intent );
         }
-
-
+        else
+        {
+            //video
+            Intent intent = new Intent( Intent.ACTION_VIEW, uri );
+            intent.setDataAndType( uri, "video/*" );
+            startActivity( intent );
+        }
     }
 }

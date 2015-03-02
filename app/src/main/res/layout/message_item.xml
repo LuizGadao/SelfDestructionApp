@@ -5,7 +5,7 @@
                 android:padding="5dp">
 
     <ImageView
-        android:id="@+id/message_icon"
+        android:id="@+id/iv_type_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_action_picture"
@@ -15,12 +15,20 @@
         android:paddingBottom="@dimen/message_item_list_vertical"/>
 
     <TextView
-        android:id="@+id/sender_label"
+        android:id="@+id/tv_sender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/message_icon"
+        android:layout_toRightOf="@id/iv_type_message"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_centerVertical="true"/>
+
+    <TextView
+        android:id="@+id/tv_created_at"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="12/07/15"
+        android:layout_alignParentRight="true"
+        android:textSize="12sp"/>
 
 
 </RelativeLayout>

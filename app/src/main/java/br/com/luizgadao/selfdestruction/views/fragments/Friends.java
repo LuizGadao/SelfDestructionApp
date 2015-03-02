@@ -80,7 +80,7 @@ public class Friends extends ListFragment {
                     }
 
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>( getActivity(),
-                            android.R.layout.simple_list_item_1, namesUser );
+                            R.layout.friends_item, namesUser );
 
                     setListAdapter( adapter );
                 } else {

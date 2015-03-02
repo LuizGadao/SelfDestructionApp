@@ -14,6 +14,7 @@ import java.util.List;
 
 import br.com.luizgadao.selfdestruction.R;
 import br.com.luizgadao.selfdestruction.utils.ParseConstants;
+import br.com.luizgadao.selfdestruction.utils.Utils;
 
 /**
  * Created by luizcarlos on 02/03/15.
@@ -51,7 +52,8 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
         else
             holder.icon.setImageResource( R.drawable.ic_action_play_over_video );
 
-        holder.label.setText( message.getString( ParseConstants.KEY_SENDER_NAME ) );
+        holder.tvSender.setText( message.getString( ParseConstants.KEY_SENDER_NAME ) );
+        holder.tvCreatedAt.setText( Utils.getTimeCreated( message.getCreatedAt(), context.getResources() ) + " ago." );
 
         return convertView;
     }
@@ -60,11 +62,12 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
     private static class ViewHolder
     {
         ImageView icon;
-        TextView label;
+        TextView tvSender, tvCreatedAt;
 
         private ViewHolder( View view ) {
-            this.icon = ( ImageView ) view.findViewById( R.id.message_icon );
-            this.label = ( TextView ) view.findViewById( R.id.sender_label );
+            this.icon = ( ImageView ) view.findViewById( R.id.iv_type_message );
+            this.tvSender = ( TextView ) view.findViewById( R.id.tv_sender );
+            this.tvCreatedAt = ( TextView ) view.findViewById( R.id.tv_created_at );
         }
     }
 }
