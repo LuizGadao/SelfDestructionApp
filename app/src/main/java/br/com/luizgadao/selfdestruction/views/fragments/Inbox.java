@@ -5,7 +5,6 @@ import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -16,6 +15,7 @@ import com.parse.ParseUser;
 import java.util.List;
 
 import br.com.luizgadao.selfdestruction.R;
+import br.com.luizgadao.selfdestruction.adapter.MessageAdapter;
 import br.com.luizgadao.selfdestruction.utils.ParseConstants;
 
 /**
@@ -54,8 +54,7 @@ public class Inbox extends ListFragment {
                         i++;
                     }
 
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>( getActivity(),
-                            android.R.layout.simple_list_item_1, userName );
+                    MessageAdapter adapter = new MessageAdapter( getActivity(), mMessages );
                     setListAdapter(adapter);
                 }
             }
