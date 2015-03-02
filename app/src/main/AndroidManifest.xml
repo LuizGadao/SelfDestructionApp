@@ -53,6 +53,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="br.com.luizgadao.selfdestruction.MainActivity" />
         </activity>
+        <activity
+            android:name=".views.ViewImageActivity"
+            android:label="@string/title_activity_view_image"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="br.com.luizgadao.selfdestruction.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
