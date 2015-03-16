@@ -11,9 +11,6 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import br.com.luizgadao.selfdestruction.R;
 
 public class ViewImageActivity extends ActionBarActivity {
@@ -47,6 +44,7 @@ public class ViewImageActivity extends ActionBarActivity {
 
             Picasso.with( getActivity() ).load( uri.toString() ).into( imageView );
 
+            /*
             Timer timer = new Timer();
             timer.schedule( new TimerTask() {
                 @Override
@@ -54,8 +52,15 @@ public class ViewImageActivity extends ActionBarActivity {
                     getActivity().finish();
                 }
             }, 10 * 1000 );
+            */
 
             return rootView;
+        }
+
+        @Override
+        public void onDetach() {
+            super.onDetach();
+
         }
     }
 }

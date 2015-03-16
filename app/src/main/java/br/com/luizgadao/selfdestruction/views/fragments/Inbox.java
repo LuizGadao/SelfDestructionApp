@@ -98,6 +98,7 @@ public class Inbox extends ListFragment {
 
         startActivity( intent );
 
+        /*DELETE ITEM FOR THIS USER*/
         List<String> ids = message.getList( ParseConstants.KEY_FRIENDS_RELATION );
         if( ids.size() == 1)
         {

@@ -58,6 +58,7 @@ public class FileHelper {
                 fileBytes = IOUtils.toByteArray( fileInput );
             }
             catch (IOException e) {
+                e.printStackTrace();
                 Log.e(TAG, e.getMessage());
             }
         }

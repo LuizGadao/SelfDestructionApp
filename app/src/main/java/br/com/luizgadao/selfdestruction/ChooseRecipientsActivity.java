@@ -27,6 +27,8 @@ import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import br.com.luizgadao.selfdestruction.utils.FileHelper;
 import br.com.luizgadao.selfdestruction.utils.ParseConstants;
@@ -60,6 +62,7 @@ public class ChooseRecipientsActivity extends ActionBarActivity {
         private String fileType = "";
 
         protected MenuItem menuItemSend;
+        private ProgressDialog progressDialog;
 
         public ChooseRecipientsFragment() {
         }
@@ -88,9 +91,16 @@ public class ChooseRecipientsActivity extends ActionBarActivity {
             switch ( menuId )
             {
                 case R.id.action_send:
+
+                    progressDialog = Utils.createGenericProgressDialog( getActivity(),
+                            getString( R.string.app_name ), "Sending file..." );
+                    progressDialog.show();
+
                     ParseObject message = createMessage();
                     if ( message == null )
                     {
+                        progressDialog.dismiss();
+
                         AlertDialog.Builder builder = new AlertDialog.Builder( getActivity() );
                         builder.setTitle( R.string.error_select_file_title )
                                 .setMessage( R.string.error_to_send_file )
@@ -222,17 +232,22 @@ public class ChooseRecipientsActivity extends ActionBarActivity {
         }
 
         private void send( ParseObject message ) {
-            final ProgressDialog progressDialog = Utils.createGenericProgressDialog( getActivity(),
-                    getString( R.string.app_name ), "Sending file..." );
-            progressDialog.show();
-
             message.saveInBackground( new SaveCallback() {
                 @Override
                 public void done( ParseException e ) {
+                    progressDialog.dismiss();
                     if ( e == null ) {
                         //success
                         Toast.makeText( getActivity(),
                                 R.string.success_message, Toast.LENGTH_LONG ).show();
+
+                        Timer timer = new Timer();
+                        timer.schedule( new TimerTask() {
+                            @Override
+                            public void run() {
+                                getActivity().finish();
+                            }
+                        }, Toast.LENGTH_LONG );
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder( getActivity() );
                         builder.setTitle( R.string.error_sending_message )
@@ -241,11 +256,8 @@ public class ChooseRecipientsActivity extends ActionBarActivity {
 
                         builder.create().show();
                     }
-
-                    progressDialog.dismiss();
-                    getActivity().finish();
                 }
-            } );
+            });
         }
     }
 }

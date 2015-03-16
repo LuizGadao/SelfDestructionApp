@@ -212,16 +212,15 @@ public class MainActivity extends ActionBarActivity {
                 sendBroadcast( mediaScanIntent );
             }
 
-            //open intent with friends to send data
-            Intent intentRecipients = new Intent( this, ChooseRecipientsActivity.class );
-            intentRecipients.setData( mediaUri );
-
             String fileType = "";
             if ( requestCode == PICK_PHOTO || requestCode == TAKE_PHOTO )
                 fileType = ParseConstants.KEY_FILE_IMAGE;
             else if ( requestCode == PICK_VIDEO || requestCode == TAKE_VIDEO )
                 fileType = ParseConstants.KEY_FILE_VIDEO;
 
+            //open intent with friends to send data
+            Intent intentRecipients = new Intent( this, ChooseRecipientsActivity.class );
+            intentRecipients.setData( mediaUri );
             intentRecipients.putExtra( ParseConstants.KEY_FILE_TYPE, fileType );
             startActivity( intentRecipients );
         }
